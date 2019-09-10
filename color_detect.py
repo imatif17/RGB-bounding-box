@@ -28,14 +28,9 @@ while(True):
 		hsv = cv2.dilate(hsv,np.ones((7,7)))
 		mask = cv2.inRange(hsv,colors[c-1][0],colors[c-1][1])
 		contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-				
-		largest_contour = None
-		largest_area = 500
-		for contour in contours:
-			area = cv2.contourArea(contour)
-			if(area > largest_area):
-				largest_contour = contour
-				largest_area = area
+		
+		largest_contour = max(contours, key = cv2.contourArea)
+		
 
 		x,y,w,h = cv2.boundingRect(largest_contour)
 		frame = cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),3)
